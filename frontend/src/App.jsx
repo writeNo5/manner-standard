@@ -151,18 +151,20 @@ function App() {
     
     setTimeout(async () => {
       try {
-        const element = document.getElementById('export-capture-area');
+        // 캡처 영역을 배경 전체가 아니라 오직 카드(card-wrapper)만 타겟팅합니다.
+        const element = document.getElementById('card-capture-area');
         const canvas = await html2canvas(element, {
           scale: 2, 
           useCORS: true,
-          backgroundColor: null,
+          backgroundColor: null, // 카드 테두리의 라운드 곡선을 투명하게 살리기 위해 null 유지
           logging: false
         });
         
-        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
+        // 카드 라운드 모서리를 투명(또는 흰색 배경)으로 예쁘게 보존하기 위해 PNG 포맷으로 수출합니다.
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
         if (!blob) throw new Error('Blob Error');
         
-        const file = new File([blob], `manner_card_${currentIndex}.jpg`, { type: 'image/jpeg' });
+        const file = new File([blob], `manner_card_${currentIndex}.png`, { type: 'image/png' });
         
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
           try {
@@ -290,7 +292,7 @@ function App() {
             </>
           )}
 
-          <main className="card-wrapper">
+          <main className="card-wrapper" id="card-capture-area">
             
             {/* 카드 우측 상단 찜하기(하트) 버튼 - 앱 UI이므로 포스터 수출 시에는 숨김 */}
             {!isExporting && (
@@ -313,7 +315,12 @@ function App() {
             <div className="card-info">
               <h2 className="card-title">{currentCard.title}</h2>
               <p className="card-desc">{currentCard.desc}</p>
-              <span className="card-tag">매너 실현 (Manner Practice)</span>
+              
+              {/* 카드 최하단 브랜드 워터마크 */}
+              <div className="card-logo-watermark">
+                [ 매너의 정석 ]
+                <span className="card-url">manner-standard.com</span>
+              </div>
             </div>
           </main>
 

@@ -94,11 +94,26 @@ body {
   word-break: keep-all;
 }
 
-.card-tag {
-  font-size: 0.75rem;
+/* 카드 내부 하단 워터마크(브랜딩) 영역 */
+.card-logo-watermark {
+  margin-top: auto; /* info박스 내에서 최하단으로 밀기 */
+  padding-bottom: 5px;
+  font-family: 'Nanum Myeongjo', serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: #374151;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.card-url {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
   color: #9CA3AF;
   letter-spacing: 0.05em;
-  font-weight: 500;
 }
 
 .bottom-text-bar {
