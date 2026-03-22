@@ -46,6 +46,54 @@ const LightbulbIcon = () => (
 
 const demoCards = [
   {
+    image: '/images/card_43_student_kindwords_1774184729451.png',
+    title: '댓글의 온도',
+    desc: 'SNS 댓글에 욕설이나 비속어 대신 예쁜 말만 남기기로 약속해요.',
+    warm_line: '당신이 심어놓은 다정한 단어 하나가 누군가의 하루를 구원합니다.'
+  },
+  {
+    image: '/images/card_44_student_privacy_1774184748111.png',
+    title: '배경 속 사생활 보호',
+    desc: '사진 배경에 우연히 찍힌 모르는 사람의 얼굴은 가리고 올려주세요.',
+    warm_line: '보이지 않게 덮어주는 그 섬세함이 아름다운 인격을 보여줍니다.'
+  },
+  {
+    image: '/images/card_45_student_gameinvite_1774184764077.png',
+    title: '무분별한 초대 자제',
+    desc: '상대방의 상황을 고려하지 않고 게임 초대 메시지를 도배하지 마세요.',
+    warm_line: '나의 즐거움만큼 상대의 고요한 시간도 소중히 지켜주세요.'
+  },
+  {
+    image: '/images/card_46_student_calmdown_1774184777308.png',
+    title: '감정의 브레이크',
+    desc: '기분이 상했을 땐 톡을 바로 보내지 말고, 잠시 폰을 내려두어 진정하세요.',
+    warm_line: '짧은 침묵이 후회할 뻔한 많은 말들을 걸러줍니다.'
+  },
+  {
+    image: '/images/card_47_student_secret_1774184813118.png',
+    title: '비밀 지켜주기',
+    desc: '친구가 믿고 빌려준 아이디나 계정 정보는 절대 다른 곳에 발설하지 마세요.',
+    warm_line: '가장 든든한 금고는 정보가 아닌 당신의 묵직한 신뢰입니다.'
+  },
+  {
+    image: '/images/card_48_student_safelink_1774184828013.png',
+    title: '의심스러운 링크',
+    desc: '출처를 알 수 없거나 의심스러운 링크는 친구들에게 함부로 공유하지 마세요.',
+    warm_line: '한 번의 멈춤이 모두를 위험으로부터 지키는 튼튼한 방패가 됩니다.'
+  },
+  {
+    image: '/images/card_49_student_videocall_1774184844440.png',
+    title: '영상 통화 전 매너',
+    desc: '영상 통화를 걸기 전 카메라를 켤 수 있는 상황인지 먼저 물어봐 주세요.',
+    warm_line: '상대방이 마음의 준비를 할 1분의 여유를 선물해 주세요.'
+  },
+  {
+    image: '/images/card_50_student_onlineclass_1774184862519.png',
+    title: '온라인 수업 매너',
+    desc: '온라인 수업에서 화상 카메라를 켜야 할 땐 단정한 모습으로 참여해 주세요.',
+    warm_line: '화면 너머로 보이는 꼿꼿한 자세가 수업의 분위기를 빛냅니다.'
+  },
+  {
     image: '/images/card_35_student_exit_1774172591668.png',
     title: '단톡방 퇴장 예절',
     desc: '단톡방을 나갈 때는 짧게라도 이유를 말하거나 인사를 남겨주세요.',
