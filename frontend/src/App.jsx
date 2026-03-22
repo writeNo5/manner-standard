@@ -38,6 +38,54 @@ const ArchiveIcon = () => (
 
 const demoCards = [
   {
+    image: '/images/card_35_student_exit_1774172591668.png',
+    title: '단톡방 퇴장 예절',
+    desc: '단톡방을 나갈 때는 짧게라도 이유를 말하거나 인사를 남겨주세요.',
+    warm_line: '당신의 다정한 뒷모습이 남은 사람들에게 따뜻한 여운을 줍니다.'
+  },
+  {
+    image: '/images/card_36_student_interruption_1774172603126.png',
+    title: '대화의 흐름 타기',
+    desc: '대화 중인 흐름과 상관없는 사적인 주제는 잠시 아껴두었다 나중에 올려주세요.',
+    warm_line: '은은하게 박자를 맞춰주는 당신이 대화의 지휘자입니다.'
+  },
+  {
+    image: '/images/card_37_student_inclusion_1774172621129.png',
+    title: '모두를 위한 대화',
+    desc: '단톡방에서 특정 친구만 아는 이야기로 다른 친구를 소외시키지 마세요.',
+    warm_line: '누구도 외롭지 않게 이끄는 배려가 진정한 리더십입니다.'
+  },
+  {
+    image: '/images/card_38_student_rumor_1774172635139.png',
+    title: '소문 차단기',
+    desc: '확인되지 않은 소문이나 출처 불명 링크는 공유하지 않고 과감히 지워주세요.',
+    warm_line: '거짓을 끊어내는 당신의 단호함이 모두의 마음을 지킵니다.'
+  },
+  {
+    image: '/images/card_39_student_thanks_1774172652909.png',
+    title: '고마움은 확실하게',
+    desc: '나의 질문에 정성껏 답해준 친구에게는 반드시 \'고마워\'라고 인사해 주세요.',
+    warm_line: '감사를 표현하는 당신의 한마디가 배움보다 값진 연결을 만듭니다.'
+  },
+  {
+    image: '/images/card_40_student_spell_1774172667160.png',
+    title: '맞춤법보다 다정함',
+    desc: '친구의 맞춤법 실수를 지나치게 따지기보다 내용을 이해하며 다정하게 넘어가 주세요.',
+    warm_line: '글자보다 마음을 먼저 읽는 당신의 여유가 관계를 부드럽게 합니다.'
+  },
+  {
+    image: '/images/card_41_student_spam_1774172684952.png',
+    title: '이모지 도배 자제',
+    desc: '과도한 스티커 연타나 문자 도배로 대화창을 어지럽히지 않도록 주의해 주세요.',
+    warm_line: '하나의 이모지에 담은 진심이 열 개의 도배보다 무겁게 다가갑니다.'
+  },
+  {
+    image: '/images/card_42_student_patience_1774172700473.png',
+    title: '답변을 기다리는 시간',
+    desc: '상대가 읽지 않음 상태일 때, 조급해하며 억지로 답장을 재촉하지 말아 주세요.',
+    warm_line: '기다림이라는 보이지 않는 매너가 상대의 일상을 지켜줍니다.'
+  },
+  {
     image: '/images/card_31_student_latenight_1774155142409.png',
     title: '모두가 잠든 시간',
     desc: '모두가 잠든 시간이나 이른 아침에는 불필요한 단톡방 대화는 자제해 주세요.',
