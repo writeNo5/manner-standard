@@ -38,6 +38,30 @@ const ArchiveIcon = () => (
 
 const demoCards = [
   {
+    image: '/images/card_31_student_latenight_1774155142409.png',
+    title: '모두가 잠든 시간',
+    desc: '모두가 잠든 시간이나 이른 아침에는 불필요한 단톡방 대화는 자제해 주세요.',
+    warm_line: '상대의 고요한 휴식時間を 지켜주는 일은 가장 훌륭한 배려입니다.'
+  },
+  {
+    image: '/images/card_32_student_emoji_1774155161849.png',
+    title: '읽업 확인용 이모지',
+    desc: '지금 바로 답하기 어려울 땐 \'확인\'을 의미하는 이모지라도 남겨주세요.',
+    warm_line: '당신의 작은 반응 하나가 상대의 막연한 기다림을 안도감으로 바꾸어 줍니다.'
+  },
+  {
+    image: '/images/card_33_student_notice_1774155176615.png',
+    title: '공지에 반응하기',
+    desc: '단톡방의 공지사항은 대충 넘기지 말고 꼼꼼히 읽은 뒤 \'확인\' 댓글을 달아주세요.',
+    warm_line: '공지에 남긴 짧은 확인 한 줄이 누군가의 묵직한 수고를 덜어줍니다.'
+  },
+  {
+    image: '/images/card_34_student_photo_1774155196227.png',
+    title: '사진 사전 동의',
+    desc: '친구의 엽기적이거나 웃긴 사진은 함부로 먼저 올리지 말고, 반드시 당사자의 허락을 구하세요.',
+    warm_line: '나에겐 일상의 가벼운 웃음이지만, 누군가에겐 꼭 지키고 싶은 사생활일 수 있습니다.'
+  },
+  {
     image: '/images/mvp_v2_student_latenight_1774139813708.png',
     title: '늦은 밤 알림 자제하기',
     desc: '모두가 잠든 시간이나 이른 아침에는 불필요한 톡을 멈춰주세요.',
