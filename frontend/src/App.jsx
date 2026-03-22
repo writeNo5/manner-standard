@@ -272,8 +272,7 @@ function App() {
               </button>
               
               <div className="top-logotype">
-                <span style={{ fontWeight: 400 }}>MANNER</span>
-                <span style={{ fontWeight: 800, marginLeft: '6px' }}>STANDARD</span>
+                매너의 정석
               </div>
 
               <button 

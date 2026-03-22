@@ -16,14 +16,17 @@ body {
   position: relative;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto; /* 기기 화면이 작을 경우 여기서 자연스러운 세로 스크롤을 허용합니다 (스크롤 버그 픽스) */
 }
 
 .app-container {
   display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
-  padding-top: 9vh; /* 카드를 상단으로 바짝 올려 남는 공간을 제거 */
-  width: 100%; height: 100%; position: absolute; top:0; left:0;
+  padding-top: 13vh; /* 헤더 아이콘들과 겹치지 않게 여유 공간 확보 */
+  width: 100%; min-height: 100%;  /* absolute 대신 min-height를 주어 내용물이 길면 늘어나도록(스크롤되도록) 허용 */
+  position: relative; /* 자연스러운 흐름 배치로 변경 */
   z-index: 10;
+  padding-bottom: 0; /* bottom-text-bar가 차지할 하단 여백 */
 }
 
 .card-wrapper {
@@ -99,17 +102,15 @@ body {
 }
 
 .bottom-text-bar {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  /* position:absolute 를 해제하여 자연스러운 flex-flow를 따르게 하고, 화면 끝을 넘어갈 경우 스크롤 가능하게 픽스 */
+  position: relative;
+  margin-top: auto; /* 여백이 남을 땐 맨 밑으로 바짝 붙이고, 좁으면 카드 바로 밑에 붙음 (마법의 오토 마진) */
   background: white;
-  padding: 24px 20px; /* 명언 박스 높이를 약간 줄여 카드에 공간 양보 */
-  width: 90%;
-  max-width: 800px;
+  padding: 26px 20px; 
+  width: 100%; /* 모바일에서 좌우 꽉 차게 */
   text-align: center;
   box-shadow: 0 -4px 20px rgba(0,0,0,0.03);
-  border-radius: 16px 16px 0 0; /* 우아한 라운딩 처리 */
+  border-radius: 20px 20px 0 0; /* 우아한 라운딩 처리 강화 */
 }
 
 .warm-line {
@@ -123,9 +124,10 @@ body {
   letter-spacing: -0.02em;
 }
 
+/* 회살표 사이드 버튼 */
 .nav-btn {
   position: absolute;
-  top: 45%; 
+  top: 48%; /* flex 레이아웃 변경에 맞춰 카드 중앙에 오도록 살짝 내림 */
   transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.4); 
   backdrop-filter: blur(12px);
@@ -182,19 +184,23 @@ body {
 .archive-toggle-btn { left: 4%; }
 .share-btn { right: 4%; }
 
-/* 상단 정중앙 로고타입 (Logotype) */
+/* 상단 정중앙 로고타입 (Logotype) - '매너의 정석' 레트로 패러디 스타일 */
 .top-logotype {
   position: absolute;
   top: 3.5%;
   left: 50%;
   transform: translateX(-50%);
-  height: 44px; 
+  height: 38px; 
   display: flex; justify-content: center; align-items: center;
-  font-family: 'Pretendard', sans-serif;
-  font-size: 1.15rem;
-  letter-spacing: 0.12em;
+  font-family: 'Nanum Myeongjo', serif; /* 클래식한 정석의 폰트 (명조체) */
+  font-size: 1.35rem;
+  font-weight: 800; /* 진중한 하드 웨이트 */
+  letter-spacing: -0.03em;
   color: #1f2937;
-  filter: drop-shadow(0 0 12px rgba(255,255,255,0.95));
+  padding: 0 14px;
+  border-top: 2px solid #1f2937; /* 수학의 정석 표지책의 위아래 흑색 띠지 포인트 */
+  border-bottom: 2px solid #1f2937;
+  filter: drop-shadow(0 0 15px rgba(255,255,255,0.95)); /* 어떤 상황 그림에서도 글자가 가독성을 잃지 않게 발광 */
   z-index: 100;
   user-select: none;
   pointer-events: none;
