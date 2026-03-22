@@ -104,8 +104,8 @@ function App() {
   const [bgGradient, setBgGradient] = useState('linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)');
   const [isExporting, setIsExporting] = useState(false);
   const [showArchive, setShowArchive] = useState(false); // 아카이브 열림 상태
+  const [exportedImage, setExportedImage] = useState(null); // iOS 크롬 대비 Fallback 모달용 이미지 상태
 
-  // [Phase 2] 로컬 스토리지 기반 '내 맘속의 매너함(북마크)' 영구 저장소 연동
   const [bookmarks, setBookmarks] = useState(() => {
     const saved = localStorage.getItem('manner_bookmarks');
     return saved ? JSON.parse(saved) : [];
@@ -159,13 +159,11 @@ function App() {
           logging: false
         });
         
-        // toBlob을 Promise로 감싸어 완전한 await 흐름(Flow)을 보장합니다.
         const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
         if (!blob) throw new Error('Blob Error');
         
         const file = new File([blob], `manner_card_${currentIndex}.jpg`, { type: 'image/jpeg' });
         
-        // 네이티브 Web Share API 트리거
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
           try {
             await navigator.share({
@@ -175,17 +173,14 @@ function App() {
               files: [file]
             });
           } catch (shareErr) {
-            // 유저가 공유 창을 취소(닫기)한 경우 발생하는 AbortError 예외를 부드럽게 무시합니다.
             console.log('Share dismissed:', shareErr);
           }
         } else {
-          // PC 등 공유 API 미지원 환경 대비 고전적 다운로드
+          // iOS 크롬이나 안드로이드 카카오브라우저 등 파일 공유(Web Share API)가 차단된 브라우저들을 위한 확실한 방어구현. 
+          // 스마트폰이 a태그 강제 다운로드를 조용히 씹어버리기 때문에, 브라우저 화면 위에 아예 구워낸 이미지를 띄워주고 
+          // 꾹 길게 눌러서 갤러리에 저장하도록 유도합니다.
           const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `manner_card_${currentIndex}.jpg`;
-          a.click();
-          URL.revokeObjectURL(url);
+          setExportedImage(url); 
         }
       } catch (err) {
         console.error('Export failed', err);
@@ -193,7 +188,6 @@ function App() {
           alert('포스터를 저장하거나 공유하는 데 실패했습니다.');
         }
       } finally {
-        // [BUG FIX] 공유가 성공하든, 취소되든, 에러가 나든 가장 마지막에 '무조건' UI(버튼 등)를 원상 복구시킵니다.
         setIsExporting(false); 
       }
     }, 150);
@@ -360,6 +354,30 @@ function App() {
               ))
             )}
           </div>
+        </div>
+      )}
+
+      {/* [FALLBACK] 크롬/인앱 브라우저 호환성 방어막: 강제 생성된 이미지를 사용자가 수동 저장/공유할 수 있도록 오버레이로 띄워줌 */}
+      {exportedImage && (
+        <div className="archive-modal" style={{zIndex: 9999, justifyContent: 'center', alignItems: 'center', background: 'rgba(0,0,0,0.85)'}}>
+          <button 
+            className="close-archive-btn" 
+            onClick={() => setExportedImage(null)} 
+            style={{position: 'absolute', top: '30px', right: '6%', color: 'white', fontSize: '1.2rem'}}
+          >
+            ✕ 닫기
+          </button>
+          
+          <div style={{color: 'white', textAlign: 'center', marginBottom: '25px', lineHeight: '1.5', fontFamily: 'Pretendard'}}>
+            <p style={{fontSize: '1rem', color: '#9ca3af', margin: '0 0 8px 0'}}>이 브라우저는 다이렉트 앱 공유를 제한하고 있습니다.</p>
+            <strong style={{fontSize: '1.1rem'}}>👇 아래 이미지를 꾸욱 길게 눌러 사진 앱에 저장하시거나 공유해주세요!</strong>
+          </div>
+          
+          <img 
+            src={exportedImage} 
+            alt="공유용 포스터 뷰" 
+            style={{maxWidth: '85vw', maxHeight: '72vh', objectFit: 'contain', borderRadius: '16px', boxShadow: '0 0 30px rgba(0,0,0,0.5)'}} 
+          />
         </div>
       )}
     </>
