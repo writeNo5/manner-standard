@@ -1,0 +1,18 @@
+# Python & General
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# System
+.DS_Store
+Thumbs.db
+
+# Frontend is handled by frontend/.gitignore, but just in case:
+node_modules/
+dist/
+.npm/

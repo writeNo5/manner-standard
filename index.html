@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>매너의 정석 - 도슨트 다정 백오피스</title>
+    <style>
+        :root {
+            --bg: #F3F4F6;
+            --surface: #FFFFFF;
+            --text-main: #1F2937;
+            --text-muted: #6B7280;
+            --primary: #4F46E5;
+            --primary-hover: #4338CA;
+            --border: #E5E7EB;
+        }
+        body { 
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background: var(--bg); color: var(--text-main); margin: 0; padding: 0;
+            display: flex; flex-direction: column; height: 100vh;
+        }
+        header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 1.5rem 3rem;
+            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 10;
+        }
+        h1 { margin: 0; font-size: 1.6rem; color: var(--text-main); font-weight: 800; letter-spacing: -0.02em; }
+        .subtitle { font-size: 0.95rem; color: var(--text-muted); margin-top: 6px; font-weight: 500; }
+        .container { padding: 2rem 3rem; flex: 1; overflow-y: auto; box-sizing: border-box; }
+        
+        .table-wrap {
+            background: var(--surface); border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            overflow: hidden; border: 1px solid var(--border);
+        }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+        th { background: #F9FAFB; font-weight: 700; color: #4B5563; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background: #F8FAFC; }
+        
+        .badge { padding: 6px 10px; border-radius: 9999px; font-size: 0.8rem; font-weight: 600; display: inline-block; white-space: nowrap; }
+        .badge-student { background: #DBEAFE; color: #1E40AF; }
+        .badge-worker { background: #D1FAE5; color: #065F46; }
+        .badge-senior { background: #FEF3C7; color: #92400E; }
+        
+        input[type="text"], input[type="date"] {
+            width: 100%; padding: 0.6rem 0.8rem; border: 1px solid var(--border); border-radius: 6px;
+            font-family: inherit; font-size: 0.95rem; box-sizing: border-box; color: var(--text-main);
+            transition: border-color 0.2s; outline: none;
+        }
+        input[type="text"]:focus, input[type="date"]:focus {
+            border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+        
+        /* Premium custom checkbox */
+        .checkbox-wrapper { display: flex; align-items: center; justify-content: center; }
+        input[type="checkbox"] {
+            width: 1.4rem; height: 1.4rem; cursor: pointer; accent-color: var(--primary);
+        }
+        
+        .warm-line { color: #4B5563; font-style: italic; line-height: 1.5; font-size: 0.9rem; }
+        .name-bold { font-weight: 700; color: #111827; }
+        
+        .btn {
+            background: var(--primary); color: white; border: none; padding: 0.85rem 1.75rem;
+            border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.25);
+        }
+        .btn:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 6px 8px -1px rgba(79, 70, 229, 0.3); }
+        .btn:active { transform: translateY(1px); }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>도슨트 다정 백오피스</h1>
+            <div class="subtitle">매너의 정석 DB 관리 (전체 <strong id="total-count">0</strong>개 중 MVP <strong style="color:var(--primary)" id="mvp-count">0</strong>개 선택)</div>
+        </div>
+        <button class="btn btn-save" onclick="saveData()">변경사항 저장</button>
+    </header>
+    
+    <div class="container">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th width="60">ID</th>
+                        <th width="80" style="text-align:center;">MVP</th>
+                        <th width="140">발행 예정일</th>
+                        <th width="90">페르소나</th>
+                        <th width="150">주제 (Theme)</th>
+                        <th width="180">매너 명칭</th>
+                        <th>따뜻한 한 줄</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <tr><td colspan="7" style="text-align: center; padding: 4rem; color: var(--text-muted);">데이터를 불러오는 중입니다...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let manners = [];
+
+        async function loadData() {
+            try {
+                const response = await fetch('/api/manners');
+                manners = await response.json();
+                renderTable();
+            } catch (error) {
+                console.error('Failed to load data:', error);
+                document.getElementById('table-body').innerHTML = `<tr><td colspan="7" style="text-align:center;color:#EF4444;padding:4rem;">데이터를 불러오지 못했습니다. <br>먼저 엑셀을 JSON으로 변환했는지 확인해주세요.</td></tr>`;
+            }
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+            
+            let mvpCount = 0;
+            
+            manners.forEach((item, index) => {
+                if(item.is_mvp) mvpCount++;
+                
+                const tr = document.createElement('tr');
+                if(item.is_mvp) tr.style.background = '#F5F3FF';
+                
+                const personaBadge = `badge-${item.persona}`;
+                const personaName = item.persona === 'student' ? '학생' : (item.persona === 'worker' ? '직장인' : '시니어');
+                
+                tr.innerHTML = `
+                    <td style="color:#6B7280; font-weight:600;"># ${item.id}</td>
+                    <td>
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" ${item.is_mvp ? 'checked' : ''} onchange="updateItem(${index}, 'is_mvp', this.checked); this.closest('tr').style.background = this.checked ? '#F5F3FF' : '';">
+                        </div>
+                    </td>
+                    <td>
+                        <input type="date" value="${item.publish_date || ''}" onchange="updateItem(${index}, 'publish_date', this.value)">
+                    </td>
+                    <td><span class="badge ${personaBadge}">${personaName}</span></td>
+                    <td style="color:#4B5563; font-size:0.9rem;">${item.theme.split('(')[0].trim()}</td>
+                    <td class="name-bold">${item.name}</td>
+                    <td class="warm-line">"${item.warm_line}"</td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            document.getElementById('total-count').innerText = manners.length;
+            document.getElementById('mvp-count').innerText = mvpCount;
+        }
+
+        function updateItem(index, field, value) {
+            manners[index][field] = value;
+            if(field === 'is_mvp') {
+                const checkedCount = manners.filter(m => m.is_mvp).length;
+                document.getElementById('mvp-count').innerText = checkedCount;
+            }
+        }
+
+        async function saveData() {
+            const btn = document.querySelector('.btn-save');
+            const originalText = btn.innerText;
+            btn.innerText = '저장 중...';
+            btn.style.opacity = '0.7';
+            
+            try {
+                const response = await fetch('/api/manners', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(manners)
+                });
+                if(response.ok) {
+                    alert('성공적으로 저장되었습니다! 멋진 큐레이션입니다.');
+                } else {
+                    alert('저장 실패: 서버 오류');
+                }
+            } catch (error) {
+                alert('저장 실패: 파이썬 서버가 꺼져있을 수 있습니다.');
+            } finally {
+                btn.innerText = originalText;
+                btn.style.opacity = '1';
+                loadData();
+            }
+        }
+
+        window.onload = loadData;
+    </script>
+</body>
+</html>
