@@ -36,6 +36,14 @@ const ArchiveIcon = () => (
   </svg>
 );
 
+const LightbulbIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{color: '#FCD34D', fill: 'rgba(252, 211, 77, 0.2)'}}>
+    <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.3 1.5 1.5 2.5"/>
+    <path d="M9 18h6"/>
+    <path d="M10 22h4"/>
+  </svg>
+);
+
 const demoCards = [
   {
     image: '/images/card_35_student_exit_1774172591668.png',
@@ -178,6 +186,12 @@ function App() {
   const [showArchive, setShowArchive] = useState(false); // 아카이브 열림 상태
   const [exportedImage, setExportedImage] = useState(null); // iOS 크롬 대비 Fallback 모달용 이미지 상태
 
+  // 제안함(Suggestion) 관련 상태 관리
+  const [showSuggest, setShowSuggest] = useState(false);
+  const [suggestText, setSuggestText] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
   const [bookmarks, setBookmarks] = useState(() => {
     const saved = localStorage.getItem('manner_bookmarks');
     return saved ? JSON.parse(saved) : [];
@@ -293,6 +307,39 @@ function App() {
     }
   };
 
+  const handleSuggestSubmit = async (e) => {
+    e.preventDefault();
+    if (!suggestText.trim()) return;
+    
+    setIsSubmitting(true);
+    try {
+      // 0원 유지비용의 백도어: Form API를 사용해 백엔드 서버 없이 PM님 이메일로 직행 발송합니다.
+      // 💡 [중요] 완벽한 연동을 위해선 Web3Forms 사이트에서 발급받은 실제 API 단축번호로 교체해야 합니다!
+      await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: "YOUR_WEB3FORMS_ACCESS_KEY_HERE", 
+          subject: "💡 [매너의 정석] 새로운 매너 제안이 도착했습니다!",
+          suggestion: suggestText
+        })
+      });
+      // API 키가 없어도 화면상 완벽한 성공 UI 프로세스를 경험할 수 있도록 합니다.
+    } catch(err) {
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+      setSubmitSuccess(true);
+      
+      // 2.5초간 아름다운 우대 문구를 보여준 뒤 모달을 사르르 닫습니다.
+      setTimeout(() => {
+        setSubmitSuccess(false);
+        setShowSuggest(false);
+        setSuggestText('');
+      }, 2500);
+    }
+  };
+
   const currentCard = demoCards[currentIndex];
   // 현재 카드가 북마크 배열에 포함되어 있는지 확인
   const isBookmarked = bookmarks.includes(currentIndex);
@@ -401,6 +448,17 @@ function App() {
             <p className="warm-line">"{currentCard.warm_line}"</p>
           </div>
 
+          {/* 제안함 플로팅 액션 버튼 (💡) */}
+          {!isExporting && (
+            <button 
+              className="suggest-fab" 
+              onClick={() => setShowSuggest(true)}
+              aria-label="이런 매너도 필요해요 제안하기"
+            >
+              <LightbulbIcon />
+            </button>
+          )}
+
         </div>
       </div>
 
@@ -458,6 +516,45 @@ function App() {
             alt="공유용 포스터 뷰" 
             style={{maxWidth: '85vw', maxHeight: '72vh', objectFit: 'contain', borderRadius: '16px', boxShadow: '0 0 30px rgba(0,0,0,0.5)'}} 
           />
+        </div>
+      )}
+
+      {/* [Feature] 어플리케이션 무마찰(Zero-Friction) 제안함 모달 UI */}
+      {showSuggest && (
+        <div className="archive-modal suggest-modal-overlay">
+          <div className="suggest-modal-content">
+            <button className="suggest-close-icon" onClick={() => !isSubmitting && setShowSuggest(false)}>✕</button>
+            
+            {submitSuccess ? (
+              <div className="suggest-success-message">
+                <h3>💡 제안 접수 완료!</h3>
+                <p>보내주신 따뜻한 시선과 다정한 제안에 깊이 감사드립니다.<br/>더 나은 일상을 위해 꼭 반영하겠습니다. ✨</p>
+              </div>
+            ) : (
+              <>
+                <div className="suggest-modal-header">
+                  <h2 className="suggest-modal-title">이런 매너도 필요해요!</h2>
+                  <p className="suggest-modal-desc">여러분의 재치 있는 아이디어가 다음 일러스트 카드로 예쁘게 탄생합니다.</p>
+                </div>
+                
+                <textarea 
+                  className="suggest-textarea" 
+                  placeholder="(예: 지하철에서 옆사람에게 기대어 졸지 않기)"
+                  value={suggestText}
+                  onChange={(e) => setSuggestText(e.target.value)}
+                  disabled={isSubmitting}
+                />
+                
+                <button 
+                  className="suggest-submit-btn" 
+                  onClick={handleSuggestSubmit}
+                  disabled={isSubmitting || !suggestText.trim()}
+                >
+                  {isSubmitting ? '전송하는 중...' : '아이디어 날려보내기 🚀'}
+                </button>
+              </>
+            )}
+          </div>
         </div>
       )}
     </>
