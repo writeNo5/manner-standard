@@ -314,12 +314,12 @@ function App() {
     setIsSubmitting(true);
     try {
       // 0원 유지비용의 백도어: Form API를 사용해 백엔드 서버 없이 PM님 이메일로 직행 발송합니다.
-      // 💡 [중요] 완벽한 연동을 위해선 Web3Forms 사이트에서 발급받은 실제 API 단축번호로 교체해야 합니다!
+      // 💡 PM님이 발급해주신 Web3Forms API 라이브 엑세스 키를 심었습니다!
       await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          access_key: "YOUR_WEB3FORMS_ACCESS_KEY_HERE", 
+          access_key: "df3f9804-9370-4377-9072-7fed599c4560", 
           subject: "💡 [매너의 정석] 새로운 매너 제안이 도착했습니다!",
           suggestion: suggestText
         })
