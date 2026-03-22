@@ -20,7 +20,8 @@ body {
 }
 
 .app-container {
-  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
+  padding-top: 9vh; /* 카드를 상단으로 바짝 올려 남는 공간을 제거 */
   width: 100%; height: 100%; position: absolute; top:0; left:0;
   z-index: 10;
 }
@@ -30,9 +31,9 @@ body {
   display: flex;
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0.95);
-  height: 65vh; 
-  width: 90vw;
-  max-width: 380px; 
+  height: 73vh; /* 카드 길이를 폭력적으로 키워 메인 화면을 완벽히 지배 */
+  width: 92vw; /* 모바일에서 꽉 차게 90 -> 92vw 넓힘 */
+  max-width: 420px; 
   border-radius: 20px;
   box-shadow: 0 15px 35px rgba(0,0,0,0.12), 0 5px 15px rgba(0,0,0,0.05);
   overflow: hidden;
@@ -103,17 +104,18 @@ body {
   left: 50%;
   transform: translateX(-50%);
   background: white;
-  padding: 30px 20px;
+  padding: 24px 20px; /* 명언 박스 높이를 약간 줄여 카드에 공간 양보 */
   width: 90%;
   max-width: 800px;
   text-align: center;
   box-shadow: 0 -4px 20px rgba(0,0,0,0.03);
+  border-radius: 16px 16px 0 0; /* 우아한 라운딩 처리 */
 }
 
 .warm-line {
   font-family: 'Nanum Myeongjo', 'Pretendard', serif;
-  font-size: 1.5rem;
-  line-height: 1.5;
+  font-size: 1.35rem; /* 모바일에서 잘리지 않도록 황금 비율 폰트 크기 조정 */
+  line-height: 1.4;
   color: #111827;
   font-weight: 500;
   margin: 0;
@@ -155,14 +157,14 @@ body {
 
 .share-btn {
   position: absolute;
-  top: 5%;
-  right: 6%;
+  top: 3%; /* 카드 최상단 여백 축소로 인해 상단 UI와 겹치지 않게 위쪽 공간으로 타이트하게 배치 */
+  right: 4%;
   background: rgba(255, 255, 255, 0.45);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  color: #374151;
+  color: #374151; /* 묵직하고 세련된 리얼 다크그레이 */
   border: 1px solid rgba(255, 255, 255, 0.6);
-  width: 56px; height: 56px; border-radius: 50%;
+  width: 52px; height: 52px; border-radius: 50%; /* 버튼 사이즈 살짝 슬림하게 */
   display: flex; justify-content: center; align-items: center;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(0,0,0,0.06);
@@ -179,14 +181,14 @@ body {
 /* 좌측 상단 마이 아카이브(서재) 메뉴 버튼 */
 .archive-toggle-btn {
   position: absolute;
-  top: 5%;
-  left: 6%;
+  top: 3%;
+  left: 4%;
   background: rgba(255, 255, 255, 0.45);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   color: #374151;
   border: 1px solid rgba(255, 255, 255, 0.6);
-  width: 56px; height: 56px; border-radius: 50%;
+  width: 52px; height: 52px; border-radius: 50%;
   display: flex; justify-content: center; align-items: center;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(0,0,0,0.06);
