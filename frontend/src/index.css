@@ -155,51 +155,49 @@ body {
 .left-btn { left: 6%; }
 .right-btn { right: 6%; }
 
-.share-btn {
+/* 앱 상단 헤더 묶음 (로고, 서재, 공유버튼) */
+.archive-toggle-btn, .share-btn {
   position: absolute;
-  top: 3%; /* 카드 최상단 여백 축소로 인해 상단 UI와 겹치지 않게 위쪽 공간으로 타이트하게 배치 */
-  right: 4%;
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: #374151; /* 묵직하고 세련된 리얼 다크그레이 */
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  width: 52px; height: 52px; border-radius: 50%; /* 버튼 사이즈 살짝 슬림하게 */
+  top: 3.5%;
+  background: transparent;
+  border: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  color: #1f2937; /* 배경색에 무관하게 흰색 후광으로 형태를 잡는 다크그레이 아이콘 */
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.95)); /* 흰색 발광(Glow) 효과로 무조건 가시성 확보 */
+  width: 44px; height: 44px;
   display: flex; justify-content: center; align-items: center;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 100;
 }
 
-.share-btn:hover {
-  background: rgba(255, 255, 255, 0.85);
-  transform: scale(1.08);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+.archive-toggle-btn:hover, .share-btn:hover {
+  transform: scale(1.18); /* 마우스 호버 시 경쾌하게 튀어 오름 */
+  background: transparent;
+  box-shadow: none;
 }
 
-/* 좌측 상단 마이 아카이브(서재) 메뉴 버튼 */
-.archive-toggle-btn {
+.archive-toggle-btn { left: 4%; }
+.share-btn { right: 4%; }
+
+/* 상단 정중앙 로고타입 (Logotype) */
+.top-logotype {
   position: absolute;
-  top: 3%;
-  left: 4%;
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: #374151;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  width: 52px; height: 52px; border-radius: 50%;
+  top: 3.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 44px; 
   display: flex; justify-content: center; align-items: center;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  font-family: 'Pretendard', sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.12em;
+  color: #1f2937;
+  filter: drop-shadow(0 0 12px rgba(255,255,255,0.95));
   z-index: 100;
-}
-
-.archive-toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.85);
-  transform: scale(1.08);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  user-select: none;
+  pointer-events: none;
 }
 
 /* 마이페이지 아카이브 뷰어 오버레이 UI */

@@ -260,26 +260,30 @@ function App() {
             </button>
           )}
 
-          {/* 좌측 상단 마이페이지(아카이브) 진입 버튼 */}
+          {/* 앱 상단 헤더: 서재 아이콘 - 중앙 로고타입 - 공유 아이콘 */}
           {!isExporting && (
-            <button 
-              className="archive-toggle-btn" 
-              onClick={() => setShowArchive(true)}
-              aria-label="보관함 열기"
-            >
-              <ArchiveIcon />
-            </button>
-          )}
+            <>
+              <button 
+                className="archive-toggle-btn" 
+                onClick={() => setShowArchive(true)}
+                aria-label="보관함 열기"
+              >
+                <ArchiveIcon />
+              </button>
+              
+              <div className="top-logotype">
+                <span style={{ fontWeight: 400 }}>MANNER</span>
+                <span style={{ fontWeight: 800, marginLeft: '6px' }}>STANDARD</span>
+              </div>
 
-          {/* 우측 상단 공유하기 버튼 */}
-          {!isExporting && (
-            <button 
-              className="share-btn" 
-              onClick={handleShare}
-              aria-label="포스터 저장 및 공유하기"
-            >
-              <ShareIcon />
-            </button>
+              <button 
+                className="share-btn" 
+                onClick={handleShare}
+                aria-label="포스터 저장 및 공유하기"
+              >
+                <ShareIcon />
+              </button>
+            </>
           )}
 
           <main className="card-wrapper">
