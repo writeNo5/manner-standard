@@ -159,31 +159,42 @@ function App() {
           logging: false
         });
         
-        canvas.toBlob(async (blob) => {
-          if (!blob) throw new Error('Blob Error');
-          const file = new File([blob], `manner_card_${currentIndex}.jpg`, { type: 'image/jpeg' });
-          
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        // toBlob을 Promise로 감싸어 완전한 await 흐름(Flow)을 보장합니다.
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
+        if (!blob) throw new Error('Blob Error');
+        
+        const file = new File([blob], `manner_card_${currentIndex}.jpg`, { type: 'image/jpeg' });
+        
+        // 네이티브 Web Share API 트리거
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
             await navigator.share({
               title: currentCard.title,
               text: currentCard.warm_line,
               url: window.location.href, 
               files: [file]
             });
-          } else {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `manner_card_${currentIndex}.jpg`;
-            a.click();
-            URL.revokeObjectURL(url);
+          } catch (shareErr) {
+            // 유저가 공유 창을 취소(닫기)한 경우 발생하는 AbortError 예외를 부드럽게 무시합니다.
+            console.log('Share dismissed:', shareErr);
           }
-          setIsExporting(false); 
-        }, 'image/jpeg', 0.9);
+        } else {
+          // PC 등 공유 API 미지원 환경 대비 고전적 다운로드
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `manner_card_${currentIndex}.jpg`;
+          a.click();
+          URL.revokeObjectURL(url);
+        }
       } catch (err) {
         console.error('Export failed', err);
-        setIsExporting(false);
-        alert('포스터 저장에 실패했습니다.');
+        if (err.name !== 'AbortError') {
+          alert('포스터를 저장하거나 공유하는 데 실패했습니다.');
+        }
+      } finally {
+        // [BUG FIX] 공유가 성공하든, 취소되든, 에러가 나든 가장 마지막에 '무조건' UI(버튼 등)를 원상 복구시킵니다.
+        setIsExporting(false); 
       }
     }, 150);
   };
