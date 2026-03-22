@@ -63,8 +63,11 @@ body {
 
 .flashcard {
   width: 100%;
-  height: 55%; 
-  object-fit: cover;
+  height: 55%; /* 메인 그림 비중 확보 */
+  background-size: cover; /* 찌그러짐 원천 차단 (배경 속성으로 강제 고정) */
+  background-position: center center;
+  background-repeat: no-repeat;
+  clip-path: polygon(0 0, 100% 0, 100% 96%, 0 100%); /* 카드에 미세하고 역동적인 사선 디자인 */
 }
 
 .card-info {

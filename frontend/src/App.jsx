@@ -305,13 +305,14 @@ function App() {
               </button>
             )}
 
-            <img 
-              src={currentCard.image} 
-              alt={currentCard.title} 
-              crossOrigin="anonymous"
-              onLoad={extractColor}
-              className="flashcard"
-            />
+            {/* 찌그러짐(Squash) 방지용 완벽 배경화면 div */}
+            <div 
+              className="flashcard" 
+              style={{ backgroundImage: `url(${currentCard.image})` }}
+              title={currentCard.title}
+              role="img"
+              aria-label={currentCard.title}
+            ></div>
             <div className="card-info">
               <h2 className="card-title">{currentCard.title}</h2>
               <p className="card-desc">{currentCard.desc}</p>
