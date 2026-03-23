@@ -378,7 +378,7 @@
         "situation": "비품 아끼기",
         "name": "우리라는 가치",
         "action_guide": "학급 공용 비품(풀, 가위 등)을 내 물건처럼 아껴 쓰기",
-        "warm_line": "\"함께 쓰는 물건을 아끼는 마음에서 리더십이 싹텄습니다.\"",
+        "warm_line": "\"함께 쓰는 물건을 아끼는 마음에서 배려심이 싹텄습니다.\"",
         "is_mvp": false,
         "publish_date": "",
         "image": ""
@@ -2492,8 +2492,8 @@
         "action_guide": "내가 말하지 않을 때는 마이크를 소음 방지를 위해 음소거 해두기",
         "warm_line": "\"작은 소음까지 차단하는 당신의 섬세함이 회의의 몰입도를 높입니다.\"",
         "is_mvp": false,
-        "publish_date": "",
-        "image": ""
+        "publish_date": "2026-03-23",
+        "image": "/images/card_204_worker_mic_mute.png"
     },
     {
         "id": 205,
@@ -5726,7 +5726,7 @@
     {
         "id": 474,
         "persona": "senior",
-        "theme": "여가의 정석 (산책로 및 취미 활동)",
+        "theme": "여가의 정석 (산���로 및 취미 활동)",
         "situation": "야외 식사",
         "name": "깔끔한 뒷정리",
         "action_guide": "도시락을 먹은 후엔 냄새가 남지 않게 주변을 정리하고 환기하기",
