@@ -227,6 +227,74 @@ const demoCards = [
   }
 ];
 
+const AdminDashboard = ({ cards }) => {
+  const [isAuth, setIsAuth] = useState(false);
+  const [pwd, setPwd] = useState('');
+
+  const checkAuth = (e) => {
+    e.preventDefault();
+    if (pwd === 'manner2026') {
+      setIsAuth(true);
+    } else {
+      alert('접근 권한이 없습니다.');
+    }
+  };
+
+  if (!isAuth) {
+    return (
+      <div style={{minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f9fafb', fontFamily: 'Pretendard'}}>
+        <form onSubmit={checkAuth} style={{padding: '40px', background: 'white', borderRadius: '16px', boxShadow: '0 10px 25px rgba(0,0,0,0.05)', textAlign: 'center', width: '90%', maxWidth: '350px'}}>
+          <h2 style={{margin: '0 0 20px', color: '#111827'}}>🔒 관리자 인증</h2>
+          <input 
+            type="password" 
+            value={pwd} 
+            onChange={(e) => setPwd(e.target.value)}
+            placeholder="마스터 암호 입력"
+            style={{padding: '14px', width: '100%', boxSizing: 'border-box', border: '1px solid #d1d5db', borderRadius: '10px', marginBottom: '16px', fontSize: '1rem', outline: 'none'}}
+          />
+          <button type="submit" style={{width: '100%', padding: '14px', background: '#111827', color: 'white', border: 'none', borderRadius: '10px', fontWeight: 'bold', fontSize: '1.05rem', cursor: 'pointer', transition: 'background 0.2s'}}>
+            접속하기
+          </button>
+        </form>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{padding: '40px', fontFamily: 'Pretendard', background: '#f9fafb', minHeight: '100vh', boxSizing: 'border-box'}}>
+      <h1 style={{color: '#111827', margin: '0 0 10px 0', fontSize: '1.8rem'}}>총 {cards.length}장의 매너 카드 에셋 백엔드(Admin) 뷰 </h1>
+      <p style={{color: '#6b7280', margin: '0 0 30px 0'}}>현재 런칭되어 유저가 직접 만나볼 수 있는 모든 이미지 에셋과 데이터의 종합 리스트입니다. (PC 환경 권장)</p>
+      
+      <div style={{background: 'white', borderRadius: '16px', overflow: 'auto', boxShadow: '0 4px 6px rgba(0,0,0,0.05)'}}>
+        <table style={{width: '100%', minWidth: '800px', borderCollapse: 'collapse', textAlign: 'left'}}>
+          <thead style={{background: '#f3f4f6'}}>
+            <tr>
+              <th style={{padding: '18px 24px', borderBottom: '2px solid #e5e7eb', color: '#374151', whiteSpace: 'nowrap'}}>No</th>
+              <th style={{padding: '18px 24px', borderBottom: '2px solid #e5e7eb', color: '#374151'}}>이미지(썸네일)</th>
+              <th style={{padding: '18px 24px', borderBottom: '2px solid #e5e7eb', color: '#374151', whiteSpace: 'nowrap'}}>타이틀</th>
+              <th style={{padding: '18px 24px', borderBottom: '2px solid #e5e7eb', color: '#374151'}}>디스크립션 (Desc)</th>
+              <th style={{padding: '18px 24px', borderBottom: '2px solid #e5e7eb', color: '#374151'}}>따뜻한 한 줄</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cards.map((c, i) => (
+              <tr key={i} style={{borderBottom: '1px solid #f3f4f6', transition: 'background 0.2s'}} onMouseOver={e => e.currentTarget.style.backgroundColor='#f9fafb'} onMouseOut={e => e.currentTarget.style.backgroundColor='white'}>
+                <td style={{padding: '16px 24px', color: '#6b7280', fontWeight: '600'}}>{i+1}</td>
+                <td style={{padding: '16px 24px'}}>
+                  <img src={c.image} alt={c.title} style={{width: '90px', height: '160px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 2px 4px rgba(0,0,0,0.05)'}} />
+                </td>
+                <td style={{padding: '16px 24px', fontWeight: '800', color: '#111827', fontSize: '1.05rem', wordBreak: 'keep-all'}}>{c.title}</td>
+                <td style={{padding: '16px 24px', color: '#4b5563', fontSize: '0.95rem', lineHeight: '1.5', wordBreak: 'keep-all'}}>{c.desc}</td>
+                <td style={{padding: '16px 24px', color: '#059669', fontSize: '0.95rem', fontStyle: 'italic', fontWeight: '500', wordBreak: 'keep-all'}}>"{c.warm_line}"</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
 function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [bgGradient, setBgGradient] = useState('linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)');
@@ -251,6 +319,13 @@ function App() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    
+    // '?admin=true' 로 접속하면 즉시 관리자 모드를 활성화
+    if (params.get('admin') === 'true') {
+      setIsAdminMode(true);
+      return;
+    }
+
     const cardParam = params.get('card');
     if (cardParam !== null) {
       const idx = parseInt(cardParam, 10);
@@ -259,6 +334,10 @@ function App() {
       }
     }
   }, []);
+
+  if (isAdminMode) {
+    return <AdminDashboard cards={demoCards} />;
+  }
 
   useEffect(() => {
     const url = new URL(window.location);
