@@ -85,7 +85,7 @@ const AdminDashboard = ({ allCards, setAllCards }) => {
   }
 
   return (
-    <div style={{padding: '40px', fontFamily: 'Pretendard', background: '#f9fafb', minHeight: '100vh', boxSizing: 'border-box', overflowY: 'auto'}}>
+    <div style={{padding: '40px', fontFamily: 'Pretendard', background: '#f9fafb', height: '100vh', width: '100vw', boxSizing: 'border-box', overflowY: 'auto', position: 'absolute', top: 0, left: 0}}>
       <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '15px'}}>
         <div>
           <h1 style={{color: '#111827', margin: '0 0 10px 0', fontSize: '1.8rem'}}>총 {allCards.length}개의 전체 기획 에셋 백엔드(Admin) 뷰</h1>
