@@ -296,6 +296,7 @@ const AdminDashboard = ({ cards }) => {
 };
 
 function App() {
+  const [isAdminMode, setIsAdminMode] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [bgGradient, setBgGradient] = useState('linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)');
   const [isExporting, setIsExporting] = useState(false);
