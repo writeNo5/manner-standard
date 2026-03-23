@@ -406,32 +406,6 @@ function App() {
     }, 150);
   };
 
-  const extractColor = (e) => {
-    try {
-      const imgEl = e.target;
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d', { willReadFrequently: true });
-      canvas.width = 10; 
-      canvas.height = 10;
-      ctx.drawImage(imgEl, 0, 0, 10, 10);
-      const data = ctx.getImageData(0, 0, 10, 10).data;
-      
-      let r = 0, g = 0, b = 0;
-      for (let i = 0; i < data.length; i += 4) {
-        r += data[i]; g += data[i+1]; b += data[i+2];
-      }
-      const count = data.length / 4;
-      
-      const pr = Math.floor((Math.floor(r/count) + 255*1.2) / 2.2);
-      const pg = Math.floor((Math.floor(g/count) + 255*1.2) / 2.2);
-      const pb = Math.floor((Math.floor(b/count) + 255*1.2) / 2.2);
-      
-      setBgGradient(`linear-gradient(135deg, rgba(${pr},${pg},${pb},1) 0%, rgba(${Math.max(0, pr-20)},${Math.max(0, pg-10)},${Math.min(255, pb+20)},1) 100%)`);
-    } catch(err) {
-      console.log('Color extract failed', err);
-    }
-  };
-
   const handleSuggestSubmit = async (e) => {
     e.preventDefault();
     if (!suggestText.trim()) return;
