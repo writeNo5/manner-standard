@@ -16,10 +16,14 @@ const statePath = path.join(__dirname, 'posted_state.json');
 const allCards = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 // 인스타그램 포스팅 대상: 이미지가 '있는' 카드만 추리기
 const cards = allCards.filter(c => c.image);
-let state = { posted_ids: [] }; // 이전엔 index 배열이었지만 이제 id를 직접 사용
+let state = { posted_ids: [] }; 
 
 if (fs.existsSync(statePath)) {
-  state = JSON.parse(fs.readFileSync(statePath, 'utf8'));
+  const fileState = JSON.parse(fs.readFileSync(statePath, 'utf8'));
+  // 구버전 파일(posted_indices)과의 하위 호환성을 위해 속성 병합 및 초기화
+  if (fileState.posted_ids) {
+    state.posted_ids = fileState.posted_ids;
+  }
 }
 
 // 추출 로직: 이미 올린 (id) 카드는 제외
