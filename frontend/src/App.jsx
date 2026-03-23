@@ -148,8 +148,7 @@ function App() {
     );
   };
 
-  const currentCard = historyPointer !== -1 && history[historyPointer] !== undefined ? demoCards[history[historyPointer]] : demoCards[0];
-  const isBookmarked = historyPointer !== -1 ? bookmarks.includes(history[historyPointer]) : false;
+
 
   const handleShare = async () => {
     setIsExporting(true); 
@@ -202,6 +201,9 @@ function App() {
   }
 
   if (demoCards.length === 0) return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent:'center', fontFamily: 'Pretendard'}}>매너 데이터를 불러오는 중입니다...</div>;
+
+  const currentCard = historyPointer !== -1 && history[historyPointer] !== undefined ? demoCards[history[historyPointer]] : demoCards[0];
+  const isBookmarked = historyPointer !== -1 ? bookmarks.includes(history[historyPointer]) : false;
 
   return (
     <>
