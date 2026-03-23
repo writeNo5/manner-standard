@@ -34,8 +34,7 @@ if (availableIndices.length === 0) {
 const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
 const card = cards[randomIndex];
 
-const imageUrl = `${BASE_URL}${card.image}`;
-const postCaption = `📌 매너의 정석 - ${card.title} 💡\n\n"${card.warm_line}"\n\n👉 나만의 매너 카드 수집하기: ${BASE_URL}/?card=${randomIndex}\n\n#직장인공감 #학생매너 #매너의정석 #에티켓 #일상동행 #배려 #도슨트다정`;
+const postCaption = `📌 매너의 정석 - ${card.title} 💡\n\n"${card.warm_line}"\n\n👉 전 세계 하나뿐인 나만의 매너 카드 둘러보기\n(상단 프로필 링크를 클릭해 주세요! ✨)\n\n#직장인공감 #학생매너 #매너의정석 #에티켓 #일상동행 #배려 #도슨트다정`;
 
 console.log(`🤖 Targeting Card ${randomIndex}: ${card.title}`);
 console.log(`📷 Image URL: ${imageUrl}`);
