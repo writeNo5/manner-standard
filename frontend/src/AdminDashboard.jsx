@@ -88,7 +88,7 @@ const AdminDashboard = ({ allCards, setAllCards }) => {
     <div style={{padding: '40px', fontFamily: 'Pretendard', background: '#f9fafb', height: '100vh', width: '100vw', boxSizing: 'border-box', overflowY: 'auto', position: 'absolute', top: 0, left: 0}}>
       <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '15px'}}>
         <div>
-          <h1 style={{color: '#111827', margin: '0 0 10px 0', fontSize: '1.8rem'}}>총 {allCards.length}개의 전체 기획 에셋 백엔드(Admin) 뷰</h1>
+          <h1 style={{color: '#111827', margin: '0 0 10px 0', fontSize: '1.8rem'}}>매너 기획 에셋 (총 {allCards.length}개 중 {filteredCards.length}개 필터링 됨)</h1>
           <p style={{color: '#6b7280', margin: '0 0 10px 0'}}>수정 버튼을 누르면 문구를 변경할 수 있습니다. (PC 환경 권장)</p>
         </div>
         
