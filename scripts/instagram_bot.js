@@ -10,34 +10,33 @@ if (!ACCESS_TOKEN || !ACCOUNT_ID) {
   process.exit(1);
 }
 
-const dataPath = path.join(__dirname, 'cards_data.json');
+const dataPath = path.join(__dirname, '../frontend/public/manner_db.json');
 const statePath = path.join(__dirname, 'posted_state.json');
 
-const cards = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-let state = { posted_indices: [] };
+const allCards = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+// 인스타그램 포스팅 대상: 이미지가 '있는' 카드만 추리기
+const cards = allCards.filter(c => c.image);
+let state = { posted_ids: [] }; // 이전엔 index 배열이었지만 이제 id를 직접 사용
 
 if (fs.existsSync(statePath)) {
   state = JSON.parse(fs.readFileSync(statePath, 'utf8'));
 }
 
-// 추출 로직: 이미 올린 카드는 제외
-let availableIndices = cards.map((_, i) => i).filter(i => !state.posted_indices.includes(i));
+// 추출 로직: 이미 올린 (id) 카드는 제외
+let availableCards = cards.filter(c => !state.posted_ids.includes(c.id));
 
-// PM님 추가 요청: 모든 카드를 한 바퀴 돌았다면 추출 조건을 리셋합니다.
-if (availableIndices.length === 0) {
-  console.log("All existing cards have been posted! Resetting the posted_indices cycle.");
-  state.posted_indices = [];
-  availableIndices = cards.map((_, i) => i);
+if (availableCards.length === 0) {
+  console.log("All existing cards have been posted! Resetting the posted_ids cycle.");
+  state.posted_ids = [];
+  availableCards = cards;
 }
 
-// 랜덤으로 1장 픽
-const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
-const card = cards[randomIndex];
+const card = availableCards[Math.floor(Math.random() * availableCards.length)];
 
 const imageUrl = `${BASE_URL}${card.image}`;
-const postCaption = `📌 매너의 정석 - ${card.title} 💡\n\n"${card.warm_line}"\n\n👉 전 세계 하나뿐인 나만의 매너 카드 둘러보기\n(상단 프로필 링크를 클릭해 주세요! ✨)\n\n#직장인공감 #학생매너 #매너의정석 #에티켓 #일상동행 #배려 #도슨트다정`;
+const postCaption = `📌 매너의 정석 - ${card.name} 💡\n\n"${card.warm_line}"\n\n👉 전 세계 하나뿐인 나만의 매너 카드 둘러보기\n(상단 프로필 링크를 클릭해 주세요! ✨)\n\n#직장인공감 #학생매너 #매너의정석 #에티켓 #일상동행 #배려 #도슨트다정`;
 
-console.log(`🤖 Targeting Card ${randomIndex}: ${card.title}`);
+console.log(`🤖 Targeting Card ID ${card.id}: ${card.name}`);
 console.log(`📷 Image URL: ${imageUrl}`);
 console.log(`📝 Caption:\n${postCaption}`);
 
@@ -82,9 +81,9 @@ async function publishToInstagram() {
     console.log(`🚀 Successfully Published to Instagram! Post ID: ${publishRes.id}`);
 
     // 성공 시에만 state 기록 업데이트
-    state.posted_indices.push(randomIndex);
+    state.posted_ids.push(card.id);
     fs.writeFileSync(statePath, JSON.stringify(state, null, 2));
-    console.log(`💾 State updated. Card ${randomIndex} marked as posted.`);
+    console.log(`💾 State updated. Card ID ${card.id} marked as posted.`);
 
   } catch (error) {
     console.error("❌ Failed to Publish to Instagram:\n", error);
