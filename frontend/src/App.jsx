@@ -336,9 +336,6 @@ function App() {
     }
   }, []);
 
-  if (isAdminMode) {
-    return <AdminDashboard cards={demoCards} />;
-  }
 
   useEffect(() => {
     const url = new URL(window.location);
@@ -471,6 +468,10 @@ function App() {
   const currentCard = demoCards[currentIndex];
   // 현재 카드가 북마크 배열에 포함되어 있는지 확인
   const isBookmarked = bookmarks.includes(currentIndex);
+
+  if (isAdminMode) {
+    return <AdminDashboard cards={demoCards} />;
+  }
 
   return (
     <>
