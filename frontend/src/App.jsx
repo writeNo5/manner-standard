@@ -56,7 +56,9 @@ function App() {
 
 
   const [isAdminMode, setIsAdminMode] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [history, setHistory] = useState([]);
+  const [historyPointer, setHistoryPointer] = useState(-1);
+  const [seenIndices, setSeenIndices] = useState(new Set());
   const [bgGradient, setBgGradient] = useState('linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)');
   const [isExporting, setIsExporting] = useState(false);
   const [showArchive, setShowArchive] = useState(false); // 아카이브 열림 상태
@@ -134,7 +136,7 @@ function App() {
         const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
         if (!blob) throw new Error('Blob Error');
         
-        const file = new File([blob], `manner_card_${currentIndex}.png`, { type: 'image/png' });
+        const file = new File([blob], `manner_card_${historyPointer !== -1 ? history[historyPointer] : 0}.png`, { type: 'image/png' });
         
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
           try {
@@ -206,10 +208,10 @@ function App() {
 
   if (demoCards.length === 0) return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent:'center', fontFamily: 'Pretendard'}}>매너 데이터를 불러오는 중입니다...</div>;
 
-  const currentCard = demoCards[currentIndex] || demoCards[0];
+  const currentCard = historyPointer !== -1 && history[historyPointer] !== undefined ? demoCards[history[historyPointer]] : demoCards[0];
 
   // 현재 카드가 북마크 배열에 포함되어 있는지 확인
-  const isBookmarked = bookmarks.includes(currentIndex);
+  const isBookmarked = historyPointer !== -1 ? bookmarks.includes(history[historyPointer]) : false;
 
   
 
@@ -237,7 +239,7 @@ function App() {
             <button 
               className="nav-btn left-btn" 
               onClick={handlePrev} 
-              disabled={currentIndex === 0}
+              disabled={historyPointer <= 0}
               aria-label="이전 카드"
             >
               <ChevronLeftIcon />
@@ -248,7 +250,7 @@ function App() {
             <button 
               className="nav-btn right-btn" 
               onClick={handleNext} 
-              disabled={currentIndex === demoCards.length - 1}
+              disabled={false}
               aria-label="다음 카드"
             >
               <ChevronRightIcon />
@@ -286,7 +288,7 @@ function App() {
             {!isExporting && (
               <button 
                 className={`bookmark-btn ${isBookmarked ? 'active' : 'inactive'}`} 
-                onClick={() => toggleBookmark(currentIndex)}
+                onClick={() => toggleBookmark(historyPointer !== -1 ? history[historyPointer] : 0)}
                 aria-label="카드 찜하기"
               >
                 <HeartIcon filled={isBookmarked} />
