@@ -37,7 +37,8 @@ if (availableCards.length === 0) {
 
 const card = availableCards[Math.floor(Math.random() * availableCards.length)];
 
-const imageUrl = `${BASE_URL}${card.image}`;
+const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/writeNo5/manner-standard/main/frontend/public';
+const imageUrl = `${GITHUB_RAW_BASE}${card.image}`;
 const postCaption = `📌 매너의 정석 - ${card.name} 💡\n\n"${card.warm_line}"\n\n👉 전 세계 하나뿐인 나만의 매너 카드 둘러보기\n👉 ${BASE_URL}\n\n#직장인공감 #학생매너 #매너의정석 #에티켓 #일상동행 #배려 #도슨트다정`;
 
 console.log(`🤖 Targeting Card ID ${card.id}: ${card.name}`);
