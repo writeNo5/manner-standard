@@ -59,7 +59,10 @@ async function publishToInstagram() {
     });
     
     const mediaRes = await createReq.json();
-    if (mediaRes.error) throw new Error(mediaRes.error.message);
+    if (mediaRes.error) {
+      console.error("❌ Media Creation Error Detail:", JSON.stringify(mediaRes.error, null, 2));
+      throw new Error(mediaRes.error.message);
+    }
     
     const creationId = mediaRes.id;
     console.log(`✅ Media Container Created Successfully: ${creationId}`);
@@ -80,7 +83,10 @@ async function publishToInstagram() {
     });
 
     const publishRes = await publishReq.json();
-    if (publishRes.error) throw new Error(publishRes.error.message);
+    if (publishRes.error) {
+      console.error("❌ Media Publish Error Detail:", JSON.stringify(publishRes.error, null, 2));
+      throw new Error(publishRes.error.message);
+    }
 
     console.log(`🚀 Successfully Published to Instagram! Post ID: ${publishRes.id}`);
 
