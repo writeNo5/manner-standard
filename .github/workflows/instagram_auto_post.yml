@@ -1,13 +1,10 @@
 name: Instagram Auto Poster Bot
 
 on:
-  schedule:
-    # 사용자 피드백 반영: 한국 시간(KST) 오전 7시, 오후 4시 발사
-    # KST 오전 7시 = UTC 오후 10시 (22:00)
-    # KST 오후 4시 = UTC 오전 7시 (07:00)
-    - cron: '0 22,7 * * *'
-    
-  workflow_dispatch: # 에러가 나거나 즉시 수동 발사를 테스트하고 싶을 때 GitHub에서 강제 실행 가능
+  # ⛔ 자동화 잠정 중단 (2026-03-26) - 재개 시 아래 schedule 블록 주석 해제
+  # schedule:
+  #   - cron: '0 22,7 * * *'
+  workflow_dispatch: # 수동 실행 전용 (GitHub Actions 탭에서 수동 실행 가능)
 
 jobs:
   auto-publish:
